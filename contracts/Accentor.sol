@@ -8,6 +8,8 @@ contract Accentor is Ownable, AccessControl {
     struct Article {
         string text;
         address author;
+        uint256 datePosted;
+        bool isPosted;
     }
 
     bytes32 public constant EDITOR_ROLE = keccak256("EDITOR_ROLE");
@@ -19,6 +21,7 @@ contract Accentor is Ownable, AccessControl {
     uint256[] articleIds;
 
     mapping(uint256 => int) articleRatings; // articleId => rating
+    mapping(uint256 => mapping(address => bool)) articleRatingAddresses; // articleId => [readerAddress => hasVoted]
 
     event ArticleAdded(uint256 indexed id, address indexed creator);
     event ArticleEdited(uint256 indexed id);
@@ -35,7 +38,7 @@ contract Accentor is Ownable, AccessControl {
 
     function addArticle(string memory articleText) external onlyRole(EDITOR_ROLE) {
         uint256 id = articleIdCounter++;
-        articles[id] = Article(articleText, msg.sender);
+        articles[id] = Article({text: articleText, author: msg.sender, datePosted: block.timestamp, isPosted: true});
         articleIds.push(id);
     }
 
@@ -55,18 +58,25 @@ contract Accentor is Ownable, AccessControl {
         return articleIds;
     }
 
-    function upvoteArticle(uint256 id) external onlyRole(READER_ROLE) {
+    modifier articleRatingMarker(uint256 id) {
+        require(articles[id].isPosted, "Article with provided identifier is not found.");
+        require(!articleRatingAddresses[id][msg.sender], "You have already voted for this article.");
+        _;
+        articleRatingAddresses[id][msg.sender] = true;
+    }
+
+    function upvoteArticle(uint256 id) external onlyRole(READER_ROLE) articleRatingMarker(id) {
         articleRatings[id]++;
     }
 
-    function downvoteArticle(uint256 id) external onlyRole(READER_ROLE) {
+    function downvoteArticle(uint256 id) external onlyRole(READER_ROLE) articleRatingMarker(id) {
         articleRatings[id]--;
     }
 
     function donateForArticle(uint256 id) external payable onlyRole(READER_ROLE) {
+        require(articles[id].isPosted, "Article with provided identifier is not found.");
         require(msg.value > DONATION_FEE, "Donation amount should be greater than 1000 wei.");
         Article memory article = articles[id];
-        require(article.author != address(0), "Article not found.");
         require(msg.sender != article.author, "You cannot donate for your own article.");
 
         uint256 amountToDonate = msg.value - DONATION_FEE;
