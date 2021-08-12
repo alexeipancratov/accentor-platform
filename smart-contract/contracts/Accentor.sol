@@ -25,21 +25,25 @@ contract Accentor is Ownable, AccessControl {
 
     event ArticleAdded(uint256 indexed id, address indexed creator);
     event ArticleEdited(uint256 indexed id);
-    event EditorRegistered(address indexed addr);
-    event ReaderRegistered(address indexed addr);
+    event EditorRegistered(address indexed editor);
+    event ReaderRegistered(address indexed reader);
 
     function registerEditor(address editorAddres) external onlyOwner() {
         _setupRole(EDITOR_ROLE, editorAddres);
+        emit EditorRegistered(editorAddres);
     }
 
     function registerReader(address readerAddres) external onlyOwner() {
         _setupRole(READER_ROLE, readerAddres);
+        emit ReaderRegistered(readerAddress);
     }
 
     function addArticle(string memory articleText) external onlyRole(EDITOR_ROLE) {
         uint256 id = articleIdCounter++;
         articles[id] = Article({text: articleText, author: msg.sender, datePosted: block.timestamp, isPosted: true});
         articleIds.push(id);
+
+        emit ArticleAdded(id, msg.sender);
     }
 
     function editArticle(uint256 id, string memory articleText) external onlyRole(EDITOR_ROLE) {
@@ -48,6 +52,7 @@ contract Accentor is Ownable, AccessControl {
         
         article.text = articleText;
         articles[id] = article;
+        emit ArticleEdited(id);
     }
 
     function getArticle(uint256 id) external view returns (string memory) {
