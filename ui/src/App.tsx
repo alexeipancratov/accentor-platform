@@ -1,8 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
+import { Route, Switch } from "react-router-dom";
 import Web3 from "web3";
-import { Contract } from 'web3-eth-contract';
-import ArticlesPage from './components/ArticlesPage';
-import { ACCENTOR_ABI, ACCENTOR_CONTRACT_ADDRESS } from "./contractAbis/accentor";
+import { Contract } from "web3-eth-contract";
+import ArticlesPage from "./components/ArticlesPage";
+import Header from "./components/Header";
+import PostArticle from "./components/PostArticle";
+import {
+  ACCENTOR_ABI,
+  ACCENTOR_CONTRACT_ADDRESS,
+} from "./contractAbis/accentor";
 
 function App() {
   const [instance, setInstance] = useState<Contract>();
@@ -20,8 +26,10 @@ function App() {
 
             const web3 = new Web3(ethObj);
             setWeb3Instance(web3);
-            
-            ethObj.on("accountsChanged", (accounts: any[]) => setAccount(accounts[0] || ''));
+
+            ethObj.on("accountsChanged", (accounts: any[]) =>
+              setAccount(accounts[0] || "")
+            );
 
             const getInstance = new web3.eth.Contract(
               ACCENTOR_ABI,
@@ -38,7 +46,17 @@ function App() {
 
   return (
     <div className="container">
-      <ArticlesPage contract={instance} account={account} />
+      <Header />
+      <Switch>
+        <Route
+          path="/"
+          exact
+          component={() => (
+            <ArticlesPage contract={instance} account={account} />
+          )}
+        />
+        <Route path="/post" component={PostArticle} />
+      </Switch>
     </div>
   );
 }
