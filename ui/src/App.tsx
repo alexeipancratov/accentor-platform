@@ -55,7 +55,9 @@ function App() {
             <ArticlesPage contract={instance} account={account} />
           )}
         />
-        <Route path="/post" component={PostArticle} />
+        <Route path="/post">
+          <PostArticle />
+        </Route>
       </Switch>
     </div>
   );
