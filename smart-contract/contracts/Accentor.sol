@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 
 contract Accentor is Ownable, AccessControl {
     struct Article {
-        string text;
+        bytes textHash;
         address author;
         uint256 datePosted;
         bool isPosted;
@@ -33,30 +33,30 @@ contract Accentor is Ownable, AccessControl {
         emit EditorRegistered(editorAddres);
     }
 
-    function registerReader(address readerAddres) external onlyOwner() {
-        _setupRole(READER_ROLE, readerAddres);
+    function registerReader(address readerAddress) external onlyOwner() {
+        _setupRole(READER_ROLE, readerAddress);
         emit ReaderRegistered(readerAddress);
     }
 
-    function addArticle(string memory articleText) external onlyRole(EDITOR_ROLE) {
+    function addArticle(bytes memory textHash) external onlyRole(EDITOR_ROLE) {
         uint256 id = articleIdCounter++;
-        articles[id] = Article({text: articleText, author: msg.sender, datePosted: block.timestamp, isPosted: true});
+        articles[id] = Article({textHash: textHash, author: msg.sender, datePosted: block.timestamp, isPosted: true});
         articleIds.push(id);
 
         emit ArticleAdded(id, msg.sender);
     }
 
-    function editArticle(uint256 id, string memory articleText) external onlyRole(EDITOR_ROLE) {
+    function editArticle(uint256 id, bytes memory textHash) external onlyRole(EDITOR_ROLE) {
         Article memory article = articles[id];
         require(msg.sender == article.author, "Only author can modify his/her article.");
         
-        article.text = articleText;
+        article.textHash = textHash;
         articles[id] = article;
         emit ArticleEdited(id);
     }
 
-    function getArticle(uint256 id) external view returns (string memory) {
-        return articles[id].text;
+    function getArticleHash(uint256 id) external view returns (bytes memory) {
+        return articles[id].textHash;
     }
     
     function getArticleIds() external view returns (uint256[] memory) {
