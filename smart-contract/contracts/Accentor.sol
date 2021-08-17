@@ -94,7 +94,7 @@ contract Accentor is Ownable, AccessControl {
         return address(this).balance;
     }
     
-    function withdrawRevenue(uint256 amount) external payable onlyOwner {
+    function withdrawRevenue(uint256 amount) external onlyOwner {
         require(amount <= address(this).balance, "The specified amount is greater than current contract balance.");
         (bool success, ) = msg.sender.call{value: amount}("");
         require(success, "Transfer failed.");
