@@ -17,7 +17,7 @@ export default function Header() {
             to="/post"
             className="btn btn-link nav-link"
             activeClassName="active">
-            + Article
+            Post Article
           </NavLink>
         </div>
       </div>

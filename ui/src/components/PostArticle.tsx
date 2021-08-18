@@ -1,7 +1,6 @@
 import { ChangeEvent, useRef, useState } from "react";
 import SunEditor from "suneditor-react";
 import SunEditorCore from "suneditor/src/lib/core";
-import "./PostArticle.css";
 import {
   align,
   font,
@@ -48,11 +47,17 @@ export default function PostArticle() {
           <label htmlFor="title" className="form-label">
             Title
           </label>
-          <input type="text" className="form-control" id="title" required />
+          <input
+            autoFocus
+            type="text"
+            className="form-control"
+            id="title"
+            required
+          />
         </div>
+        <label className="form-label">Content</label>
         <SunEditor
           name="articleText"
-          autoFocus={true}
           setDefaultStyle="font-family: Arial; font-size: 13px;"
           getSunEditorInstance={getSunEditorInstance}
           setOptions={{
