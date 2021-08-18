@@ -6,7 +6,8 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 
 contract Accentor is Ownable, AccessControl {
     struct Article {
-        bytes textHash;
+        string title;
+        string text;
         address author;
         uint256 datePosted;
         bool isPosted;
@@ -16,10 +17,12 @@ contract Accentor is Ownable, AccessControl {
 	bytes32 public constant READER_ROLE = keccak256("READER_ROLE");
     uint256 public constant DONATION_FEE = 1000;
 
-    mapping(uint256 => Article) articles;
-    uint256 articleIdCounter;
-    uint256[] articleIds;
+    mapping(uint256 => Article) public articles;
+    uint256[] public articleIds;
+    uint256 public articleIdCounter;
 
+    mapping(uint256 => uint256) public articleDonationAmounts; // articleId => donationAmount
+    
     mapping(uint256 => int) articleRatings; // articleId => rating
     mapping(uint256 => mapping(address => bool)) articleRatingAddresses; // articleId => [readerAddress => hasVoted]
 
@@ -38,25 +41,25 @@ contract Accentor is Ownable, AccessControl {
         emit ReaderRegistered(readerAddress);
     }
 
-    function addArticle(bytes memory textHash) external onlyRole(EDITOR_ROLE) {
+    function addArticle(string memory title, string memory text) external onlyRole(EDITOR_ROLE) {
         uint256 id = articleIdCounter++;
-        articles[id] = Article({textHash: textHash, author: msg.sender, datePosted: block.timestamp, isPosted: true});
+        articles[id] = Article({title: title, text: text, author: msg.sender, datePosted: block.timestamp, isPosted: true});
         articleIds.push(id);
 
         emit ArticleAdded(id, msg.sender);
     }
 
-    function editArticle(uint256 id, bytes memory textHash) external onlyRole(EDITOR_ROLE) {
+    function editArticle(uint256 id, string memory text) external onlyRole(EDITOR_ROLE) {
         Article memory article = articles[id];
         require(msg.sender == article.author, "Only author can modify his/her article.");
         
-        article.textHash = textHash;
+        article.text = text;
         articles[id] = article;
         emit ArticleEdited(id);
     }
 
-    function getArticleHash(uint256 id) external view returns (bytes memory) {
-        return articles[id].textHash;
+    function getArticleHash(uint256 id) external view returns (bytes32) {
+        return keccak256(abi.encodePacked(articles[id].title, articles[id].text));
     }
     
     function getArticleIds() external view returns (uint256[] memory) {
@@ -86,6 +89,7 @@ contract Accentor is Ownable, AccessControl {
 
         uint256 amountToDonate = msg.value - DONATION_FEE;
 
+        articleDonationAmounts[id] += amountToDonate;
         (bool success, ) = article.author.call{value: amountToDonate}("");
         require(success, "Donation failed");
     }
