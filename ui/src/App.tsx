@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Route, Switch } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import Web3 from "web3";
 import { Contract } from "web3-eth-contract";
 import ArticlesPage from "./components/ArticlesPage";
@@ -9,6 +10,8 @@ import {
   ACCENTOR_ABI,
   ACCENTOR_CONTRACT_ADDRESS,
 } from "./contractAbis/accentor";
+import "react-toastify/dist/ReactToastify.css";
+import ArticlePage from "./components/ArticlePage";
 
 function App() {
   const [instance, setInstance] = useState<Contract>();
@@ -55,10 +58,12 @@ function App() {
             <ArticlesPage contract={instance} account={account} />
           )}
         />
+        <Route path="/article/:id" component={ArticlePage} />
         <Route path="/post">
-          <PostArticle />
+          <PostArticle contract={instance} account={account} />
         </Route>
       </Switch>
+      <ToastContainer autoClose={3000} hideProgressBar />
     </div>
   );
 }

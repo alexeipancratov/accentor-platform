@@ -1,6 +1,8 @@
 export default class Article {
   id: number = 0;
-  text: string = "";
+  title: string = "";
+  content: string = "";
   author: string = "";
   datePosted: string = "";
+  image: string = "";
 }

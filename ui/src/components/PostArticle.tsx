@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, SyntheticEvent, useRef, useState } from "react";
 import SunEditor from "suneditor-react";
 import SunEditorCore from "suneditor/src/lib/core";
 import {
@@ -18,31 +18,74 @@ import {
   image,
   link,
 } from "suneditor/src/plugins";
+import { Contract } from "web3-eth-contract";
+import Article from "../models/Article";
+import { postArticle } from "../api/articlesApi";
+import ipfs from "../services/ipfs";
+import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
-export default function PostArticle() {
+export default function PostArticle({
+  contract,
+  account,
+}: {
+  contract: Contract | undefined;
+  account: string | undefined;
+}) {
+  const history = useHistory();
   const [title, setTitle] = useState<string | null>();
-  const editor = useRef<SunEditorCore>();
+  const [imageFile, setImageFile] = useState();
 
-  // The sunEditor parameter will be set to the core suneditor instance when this function is called
+  const editor = useRef<SunEditorCore>();
   const getSunEditorInstance = (sunEditor: SunEditorCore) => {
     editor.current = sunEditor;
   };
 
-  const onTitleChange = (e: ChangeEvent) => {
-    setTitle(e.target.nodeValue);
+  const onTitleChange = (e: any) => {
+    setTitle(e.target.value);
   };
 
-  const onPost = () => {
-    console.log({
-      title: title,
-      articleText: editor.current?.getContents(false),
-    });
+  const onImageFileChange = async (e: any) => {
+    setImageFile(e.target.files[0]);
+  };
+
+  const onSubmit = async (e: SyntheticEvent) => {
+    e.preventDefault();
+
+    // Upload image to IPFS.
+    const ipfsResult = await ipfs.add(imageFile);
+    console.log("IPFS image path", ipfsResult.path);
+
+    // Save article in API.
+    const id = await contract?.methods.articleIdCounter().call();
+    console.log("Smart Contract ID", id);
+
+    const article = new Article();
+    article.id = +id + 1;
+    article.title = title || "";
+    article.content = editor.current?.getContents(false) || "";
+    article.author = account || "";
+    article.image = ipfsResult.path;
+
+    console.log("Article to post", article);
+
+    await postArticle(article);
+
+    // Save article to the blockchain.
+    const receipt = await contract?.methods
+      .addArticle(article.title, article.content)
+      .send({ from: account });
+    console.log("Transaction receipt", receipt);
+
+    // Navigate away.
+    toast.success("Article has been successfully posted!");
+    history.push("/");
   };
 
   return (
     <>
       <h2>New Article</h2>
-      <form>
+      <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label htmlFor="title" className="form-label">
             Title
@@ -52,7 +95,20 @@ export default function PostArticle() {
             type="text"
             className="form-control"
             id="title"
+            onChange={onTitleChange}
             required
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="image" className="form-label">
+            Image
+          </label>
+          <input
+            type="file"
+            className="form-control"
+            id="image"
+            required
+            onChange={onImageFileChange}
           />
         </div>
         <label className="form-label">Content</label>
@@ -117,7 +173,7 @@ export default function PostArticle() {
             ],
           }}
         />
-        <button className="btn btn-primary mt-3" onClick={onPost}>
+        <button className="btn btn-primary mt-3 mb-3" type="submit">
           Post
         </button>
       </form>
