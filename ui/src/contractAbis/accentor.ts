@@ -1,7 +1,7 @@
 import { AbiItem } from "web3-utils";
 
 export const ACCENTOR_CONTRACT_ADDRESS =
-  "0x254dffcd3277C0b1660F6d42EFbB754edaBAbC2B";
+  "0x9561C133DD8580860B6b7E504bC5Aa500f0f06a7";
 
 export const ACCENTOR_ABI: AbiItem[] = [
   {
@@ -272,6 +272,25 @@ export const ACCENTOR_ABI: AbiItem[] = [
         internalType: "uint256",
         name: "",
         type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "articleRatings",
+    outputs: [
+      {
+        internalType: "int256",
+        name: "",
+        type: "int256",
       },
     ],
     stateMutability: "view",
