@@ -17,13 +17,14 @@ function createArticlesRouter() {
           content: req.body.content,
           author: req.body.author,
           datePosted: new Date(),
+          image: req.body.image,
         },
         (err) => {
           if (err) {
             return res.send(err);
           }
 
-          return res.sendStatus(201);
+          return res.send(req.body);
         }
       );
     });
