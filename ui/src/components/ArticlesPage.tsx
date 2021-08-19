@@ -25,7 +25,7 @@ export default function ArticlesPage({
 
   return (
     <>
-      <h2>Trending now</h2>
+      <h3>Trending now</h3>
       <div className="row">
         {articles.map((a) => (
           <div key={a.id} className="col-sm-4">

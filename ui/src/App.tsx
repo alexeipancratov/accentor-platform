@@ -49,26 +49,28 @@ function App() {
   }, []);
 
   return (
-    <div className="container">
-      <Web3Provider
-        value={{ web3: web3Instance, contract: instance, account: account }}>
-        <Header />
-        <Switch>
-          <Route
-            path="/"
-            exact
-            component={() => (
-              <ArticlesPage contract={instance} account={account} />
-            )}
-          />
-          <Route path="/article/:id" component={ArticlePage} />
-          <Route path="/post">
-            <PostArticle contract={instance} account={account} />
-          </Route>
-        </Switch>
-      </Web3Provider>
-      <ToastContainer autoClose={3000} hideProgressBar />
-    </div>
+    <>
+      <Header />
+      <div className="container">
+        <Web3Provider
+          value={{ web3: web3Instance, contract: instance, account: account }}>
+          <Switch>
+            <Route
+              path="/"
+              exact
+              component={() => (
+                <ArticlesPage contract={instance} account={account} />
+              )}
+            />
+            <Route path="/article/:id" component={ArticlePage} />
+            <Route path="/post">
+              <PostArticle contract={instance} account={account} />
+            </Route>
+          </Switch>
+        </Web3Provider>
+        <ToastContainer autoClose={3000} hideProgressBar />
+      </div>
+    </>
   );
 }
 
