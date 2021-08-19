@@ -1,5 +1,5 @@
-# Accentor
-dApp platform for sharing content.
+![logo_final_Alt_small](https://user-images.githubusercontent.com/3188163/130112750-872b9eaa-073c-4c90-9268-a144ffc3065b.png)
+#### dApp platform for sharing content powered by the Ethereum blockchain
 
 ## Smart Contract specification
 
