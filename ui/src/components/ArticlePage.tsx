@@ -40,6 +40,21 @@ export default function ArticlePage() {
     }
   };
 
+  const onVerifyAuthenticity = async () => {
+    const blockchainArticleHash = await web3Context.contract?.methods
+      .getArticleHash(article.id)
+      .call();
+    const localArticleHash = web3Context.web3?.utils.keccak256(
+      `${article.title}${article.content}`
+    );
+
+    if (blockchainArticleHash === localArticleHash) {
+      toast.success("Match!");
+    } else {
+      toast.error("No match!");
+    }
+  };
+
   return (
     <>
       <h1>{article.title}</h1>
@@ -48,7 +63,9 @@ export default function ArticlePage() {
         <button className="btn btn-outline-success" onClick={onDonateClick}>
           <i className="bi bi-cash-coin"></i> Donate to publisher
         </button>
-        <button className="btn btn-outline-info ms-3">
+        <button
+          className="btn btn-outline-info ms-3"
+          onClick={onVerifyAuthenticity}>
           <i className="bi bi-file-earmark-medical"></i> Verify authenticity
         </button>
       </div>
