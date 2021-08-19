@@ -12,6 +12,7 @@ import {
 } from "./contractAbis/accentor";
 import "react-toastify/dist/ReactToastify.css";
 import ArticlePage from "./components/ArticlePage";
+import { Web3Provider } from "./contexts/web3Context";
 
 function App() {
   const [instance, setInstance] = useState<Contract>();
@@ -49,20 +50,23 @@ function App() {
 
   return (
     <div className="container">
-      <Header />
-      <Switch>
-        <Route
-          path="/"
-          exact
-          component={() => (
-            <ArticlesPage contract={instance} account={account} />
-          )}
-        />
-        <Route path="/article/:id" component={ArticlePage} />
-        <Route path="/post">
-          <PostArticle contract={instance} account={account} />
-        </Route>
-      </Switch>
+      <Web3Provider
+        value={{ web3: web3Instance, contract: instance, account: account }}>
+        <Header />
+        <Switch>
+          <Route
+            path="/"
+            exact
+            component={() => (
+              <ArticlesPage contract={instance} account={account} />
+            )}
+          />
+          <Route path="/article/:id" component={ArticlePage} />
+          <Route path="/post">
+            <PostArticle contract={instance} account={account} />
+          </Route>
+        </Switch>
+      </Web3Provider>
       <ToastContainer autoClose={3000} hideProgressBar />
     </div>
   );

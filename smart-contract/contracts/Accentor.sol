@@ -42,11 +42,12 @@ contract Accentor is Ownable, AccessControl {
     }
 
     function addArticle(string memory title, string memory text) external onlyRole(EDITOR_ROLE) {
-        uint256 id = articleIdCounter++;
+        uint256 id = articleIdCounter;
         articles[id] = Article({title: title, text: text, author: msg.sender, datePosted: block.timestamp, isPosted: true});
         articleIds.push(id);
 
         emit ArticleAdded(id, msg.sender);
+        articleIdCounter++;
     }
 
     function editArticle(uint256 id, string memory text) external onlyRole(EDITOR_ROLE) {

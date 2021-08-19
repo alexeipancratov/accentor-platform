@@ -1,4 +1,4 @@
-import { ChangeEvent, SyntheticEvent, useRef, useState } from "react";
+import { SyntheticEvent, useRef, useState } from "react";
 import SunEditor from "suneditor-react";
 import SunEditorCore from "suneditor/src/lib/core";
 import {
@@ -61,7 +61,7 @@ export default function PostArticle({
     console.log("Smart Contract ID", id);
 
     const article = new Article();
-    article.id = +id + 1;
+    article.id = +id;
     article.title = title || "";
     article.content = editor.current?.getContents(false) || "";
     article.author = account || "";
