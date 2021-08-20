@@ -5,9 +5,11 @@ dApp platform for sharing content powered by the Ethereum blockchain
 ## dApp architecture
 ![architecture diagram](https://user-images.githubusercontent.com/3188163/130240496-2753d3cd-c6b5-48b5-b913-2b00edd77b27.png)
 
-* UI - presents the aggregated data to the end user, which is retrieved from API, Smart Contract, and IPFS
+* UI - presents the aggregated data to the end user, which is retrieved from Smart Contract, API, and IPFS
+* Smart Contract - stores articles and manages donations to publishers. Is deployed on the Ethereum blockchain
+* IPFS - stores article images
 * API - stores/retrieves off-chain data to/from MongoDB database
-* MongoDB stores off-chain data for faster/easier retrieval 
+* MongoDB - stores off-chain data for faster/easier retrieval 
 
 ## Smart Contract specification
 
