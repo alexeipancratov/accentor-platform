@@ -9,7 +9,14 @@ dApp platform for sharing content powered by the Ethereum blockchain.
 * Smart Contract - stores articles and manages donations to publishers. Is deployed on the Ethereum blockchain
 * IPFS - stores article images
 * API - stores/retrieves off-chain data to/from MongoDB database
-* MongoDB - stores off-chain data for faster/easier retrieval 
+* MongoDB - stores off-chain data for faster/easier retrieval
+
+## Tech Stack
+Tech stack is based on MERN for the web application. And Solidity for the smart contract development. The full breakdown is as follows:
+* UI - React 17
+* Smart Contract - Solidity
+* API - Node.js + Express
+* MongoDB
 
 ## Smart Contract specification
 
