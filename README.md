@@ -40,3 +40,12 @@ Tech stack is based on MERN for the web application. And Solidity for the smart 
 |`donateForArticle`| `external`      | `payable`  | - `onlyRole(READER_ROLE)` | - `uint256 id` | - checks if article with such ID exists<br/>- ensures that passed ETH amount is greater than the `DONATION_FEE` constant<br/>- ensures that the `msg.sender` is not the article author<br/>- sends the difference between sent ETH and `DONATION_FEE` to the article author |
 |`getTotalAmountLocked`| `external`  | `view`     | N/A            | - returns `uint256` | - returns the total amount currently locked in smart contract
 |`withdrawRevenue`     | `external`  | N/A        | `onlyOwner`    | - `uint256 amount`  | - ensures the required amount is <= than the currently locked amount<br/>- transfers the specified amount to contract owner<br/>- ensures transfer succeeded
+
+## UI
+The image below shows the home page with the list of all articles posted.
+
+![image](https://user-images.githubusercontent.com/3188163/130291013-8a0dd54f-ab3d-48a8-a7f5-f2145d9a0a43.png)
+
+The next image shows the page which allows purblishers (journalists) to post new articles.
+
+![image](https://user-images.githubusercontent.com/3188163/130291138-226c9208-fef8-44dd-8047-e26edb46caf1.png)
