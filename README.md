@@ -2,6 +2,12 @@
 ![logo_final_Alt_small](https://user-images.githubusercontent.com/3188163/130112750-872b9eaa-073c-4c90-9268-a144ffc3065b.png) <br/>
 dApp platform for sharing content powered by the Ethereum blockchain.
 
+## Use cases
+![use-case](https://user-images.githubusercontent.com/3188163/130249577-ef84fd2e-5dc6-41ee-973b-f4f69f4fca1e.png)
+
+* Publisher - posts articles, and can read other articles
+* Reader - can read articles, donate to publishers, verify authenticity of an article (by comparing on-chain and off-chain version)
+
 ## Architecture
 ![architecture diagram](https://user-images.githubusercontent.com/3188163/130240496-2753d3cd-c6b5-48b5-b913-2b00edd77b27.png)
 
