@@ -33,7 +33,7 @@ Tech stack is based on MERN for the web application. And Solidity for the smart 
 | `registerReader` | `external`      | N/A           | `onlyOwner` | - `address readerAddres` | - registers the address as Reader user<br/> - emits a `ReaderRegistered` event |
 | `addArticle`     | `external`      | N/A           | `onlyRole(EDITOR_ROLE)` | - `string memory articleText` | - increments the `articleIdCounter`<br/>- inserts new `Article` object in the `articles` array<br />- emits an `ArticleAdded` event |
 | `editArticle`    | `external`      | N/A           | `onlyRole(EDITOR_ROLE)` | - `uint256 id`<br/>- `string memory articleText` | - checks if `msg.sender` is the article creator<br/>- updates the `Article` object<br/>- emits an `ArticleEdited` event |
-| `getArticle`     | `external`      | `view`        | N/A         | - `uint256 id`<br/>- returns `string memory` | - returns the the article text by ID |
+| `getArticleHash` | `external`      | `view`        | N/A         | - `uint256 id`<br/>- returns `bytes32` | - returns keccak256 hash of the specified article |
 | `getArticleIds`  | `external`      | `view`        | N/A         | - returns `uint256[] memory` | - returns the array of article IDs |
 | modifier `articleRatingMarker` | N/A      | N/A        | N/A         | - `uint256 id` | - checks if an article with given ID is found<br/>- checks if user has already voted for this article<br/>- executes function body (`_`)<br/>- marks `msg.sender` as voted for a given article |
 | `upvoteArticle`  | `external`      | N/A        | - `onlyRole(READER_ROLE)`<br/> - articleRatingMarker(id) | - `uint256 id` | - increments votes count for a given article |
