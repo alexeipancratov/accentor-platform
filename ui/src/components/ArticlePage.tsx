@@ -102,7 +102,7 @@ export default function ArticlePage() {
       </div>
       <div className="mt-2 mb-2">
         <button
-          className="btn btn-outline-primary btn-sm"
+          className="btn btn-outline-success btn-sm"
           title="Thumbs up"
           onClick={onUpvote}>
           <i className="bi bi-hand-thumbs-up"></i>
