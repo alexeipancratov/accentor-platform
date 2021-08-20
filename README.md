@@ -48,4 +48,8 @@ The image below shows the home page with the list of all articles posted.
 
 The next image shows the page which allows purblishers (journalists) to post new articles.
 
+![image](https://user-images.githubusercontent.com/3188163/130291442-1b7bacb5-5608-4091-83f2-357f3d23a684.png)
+
+Finally, the last image shows how does a reader see a posted article. Here a reader can donate ETH to publisher, upvote/downvote, verify article authenticity (comparison of hashes of data on-chain vs off-chain).
+
 ![image](https://user-images.githubusercontent.com/3188163/130291138-226c9208-fef8-44dd-8047-e26edb46caf1.png)
