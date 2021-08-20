@@ -26,7 +26,6 @@ Tech stack is based on MERN for the web application. And Solidity for the smart 
 
 ## Smart Contract specification
 
-### Accentor.sol
 |Function Name | Function Visibility | Function mutability | Modifiers | Parameters/Return value | Action - Notes |
 |--------------|---------------------|----------------------------------|-----------|------------|----------------|
 | `registerEditor` | `external`      | N/A           | `onlyOwner` | - `address editorAddres`<br/> | - registers the address as Editor user<br/> - emits an `EditorRegistered` event | 
