@@ -1,16 +1,38 @@
-![logo_final_Alt_small](https://user-images.githubusercontent.com/3188163/130112750-872b9eaa-073c-4c90-9268-a144ffc3065b.png)
-#### dApp platform for sharing content powered by the Ethereum blockchain
+# Accentor
+![logo_final_Alt_small](https://user-images.githubusercontent.com/3188163/130112750-872b9eaa-073c-4c90-9268-a144ffc3065b.png) <br/>
+dApp platform for sharing content powered by the Ethereum blockchain.
+
+## Use cases
+![use-case](https://user-images.githubusercontent.com/3188163/130249577-ef84fd2e-5dc6-41ee-973b-f4f69f4fca1e.png)
+
+* Publisher - posts articles, and can read other articles
+* Reader - can read articles, donate to publishers, verify authenticity of an article (by comparing on-chain and off-chain version)
+
+## Architecture
+![architecture diagram](https://user-images.githubusercontent.com/3188163/130240496-2753d3cd-c6b5-48b5-b913-2b00edd77b27.png)
+
+* UI - presents the aggregated data to the end user, which is retrieved from Smart Contract, API, and IPFS
+* Smart Contract - stores articles and manages donations to publishers. Is deployed on the Ethereum blockchain
+* IPFS - stores article images
+* API - stores/retrieves off-chain data to/from MongoDB database
+* MongoDB - stores off-chain data for faster/easier retrieval
+
+## Tech Stack
+Tech stack is based on MERN for the web application. And Solidity for the smart contract development. The full breakdown is as follows:
+* UI - React 17
+* Smart Contract - Solidity
+* API - Node.js + Express
+* MongoDB
 
 ## Smart Contract specification
 
-### Accentor.sol
 |Function Name | Function Visibility | Function mutability | Modifiers | Parameters/Return value | Action - Notes |
 |--------------|---------------------|----------------------------------|-----------|------------|----------------|
 | `registerEditor` | `external`      | N/A           | `onlyOwner` | - `address editorAddres`<br/> | - registers the address as Editor user<br/> - emits an `EditorRegistered` event | 
 | `registerReader` | `external`      | N/A           | `onlyOwner` | - `address readerAddres` | - registers the address as Reader user<br/> - emits a `ReaderRegistered` event |
 | `addArticle`     | `external`      | N/A           | `onlyRole(EDITOR_ROLE)` | - `string memory articleText` | - increments the `articleIdCounter`<br/>- inserts new `Article` object in the `articles` array<br />- emits an `ArticleAdded` event |
 | `editArticle`    | `external`      | N/A           | `onlyRole(EDITOR_ROLE)` | - `uint256 id`<br/>- `string memory articleText` | - checks if `msg.sender` is the article creator<br/>- updates the `Article` object<br/>- emits an `ArticleEdited` event |
-| `getArticle`     | `external`      | `view`        | N/A         | - `uint256 id`<br/>- returns `string memory` | - returns the the article text by ID |
+| `getArticleHash` | `external`      | `view`        | N/A         | - `uint256 id`<br/>- returns `bytes32` | - returns keccak256 hash of the specified article |
 | `getArticleIds`  | `external`      | `view`        | N/A         | - returns `uint256[] memory` | - returns the array of article IDs |
 | modifier `articleRatingMarker` | N/A      | N/A        | N/A         | - `uint256 id` | - checks if an article with given ID is found<br/>- checks if user has already voted for this article<br/>- executes function body (`_`)<br/>- marks `msg.sender` as voted for a given article |
 | `upvoteArticle`  | `external`      | N/A        | - `onlyRole(READER_ROLE)`<br/> - articleRatingMarker(id) | - `uint256 id` | - increments votes count for a given article |
