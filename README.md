@@ -2,7 +2,7 @@
 ![logo_final_Alt_small](https://user-images.githubusercontent.com/3188163/130112750-872b9eaa-073c-4c90-9268-a144ffc3065b.png) <br/>
 dApp platform for sharing content powered by the Ethereum blockchain.
 
-## dApp architecture
+## Architecture
 ![architecture diagram](https://user-images.githubusercontent.com/3188163/130240496-2753d3cd-c6b5-48b5-b913-2b00edd77b27.png)
 
 * UI - presents the aggregated data to the end user, which is retrieved from Smart Contract, API, and IPFS
