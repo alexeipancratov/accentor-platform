@@ -44,7 +44,7 @@ Tech stack is based on MERN for the web application. And Solidity for the smart 
 ## UI
 The image below shows the home page with the list of all articles posted.
 
-![image](https://user-images.githubusercontent.com/3188163/130291013-8a0dd54f-ab3d-48a8-a7f5-f2145d9a0a43.png)
+![130291013-8a0dd54f-ab3d-48a8-a7f5-f2145d9a0a43](https://user-images.githubusercontent.com/3188163/130291229-41efdbba-55da-4d25-9d5e-421d18aa2f69.png)
 
 The next image shows the page which allows purblishers (journalists) to post new articles.
 
