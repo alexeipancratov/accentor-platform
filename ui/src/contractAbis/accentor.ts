@@ -1,7 +1,7 @@
 import { AbiItem } from "web3-utils";
 
 export const ACCENTOR_CONTRACT_ADDRESS =
-  "0x9561C133DD8580860B6b7E504bC5Aa500f0f06a7";
+  "0xe78A0F7E598Cc8b0Bb87894B0F60dD2a88d6a8Ab";
 
 export const ACCENTOR_ABI: AbiItem[] = [
   {

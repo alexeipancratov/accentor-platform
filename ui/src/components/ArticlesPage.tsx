@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { getArticles } from "../api/articlesApi";
 import Article from "../models/Article";
 
+const NUMBER_OF_ARTICLE_COLUMNS = 3;
+
 export default function ArticlesPage() {
   const [articles, setArticles] = useState<Article[]>([]);
 
@@ -36,14 +38,17 @@ export default function ArticlesPage() {
     </div>
   ));
 
-  const numberOfRows = Math.ceil(articles.length / 3);
+  const numberOfRows = Math.ceil(articles.length / NUMBER_OF_ARTICLE_COLUMNS);
 
   return (
     <>
       <h3>Trending now</h3>
       {Array.from(Array(numberOfRows)).map((_, i) => (
         <div key={i} className="row">
-          {previews.slice(i * 3, (i + 1) * 3)}
+          {previews.slice(
+            i * NUMBER_OF_ARTICLE_COLUMNS,
+            (i + 1) * NUMBER_OF_ARTICLE_COLUMNS
+          )}
         </div>
       ))}
     </>
