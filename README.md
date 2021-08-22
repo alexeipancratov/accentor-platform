@@ -53,3 +53,9 @@ The next image shows the page which allows purblishers (journalists) to post new
 Finally, the last image shows how does a reader see a posted article. Here a reader can donate ETH to publisher, upvote/downvote, verify article authenticity (comparison of hashes of data on-chain vs off-chain).
 
 ![image](https://user-images.githubusercontent.com/3188163/130291138-226c9208-fef8-44dd-8047-e26edb46caf1.png)
+
+## How to run project
+1. Deploy smart contract on any test network
+2. Update smart contract address in the ui/src/contractAbis/accentor.ts
+3. Start UI by navingating to the ui/ and by running `npm install` and then `npm start`
+4. Start API by navingating to the server/ and by running `npm install` and then `npm start`
