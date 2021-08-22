@@ -59,3 +59,5 @@ Finally, the last image shows how does a reader see a posted article. Here a rea
 2. Update smart contract address in the ui/src/contractAbis/accentor.ts
 3. Start UI by navingating to the ui/ and by running `npm install` and then `npm start`
 4. Start API by navingating to the server/ and by running `npm install` and then `npm start`
+5. Start IPFS HTTP API locally - https://github.com/ipfs/go-ipfs
+6. The application is ready to use
